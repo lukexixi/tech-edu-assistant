@@ -1,81 +1,173 @@
 import streamlit as st
 import requests
 
-# 1. 页面基本配置
+# ========== 1. 页面配置 ==========
 st.set_page_config(
-    page_title="洛克实验室 | 4A 科技素养规划助手", 
+    page_title="洛克实验室｜青少年科技素养评估系统",
     page_icon="🧪",
     layout="centered"
 )
 
-# 2. 自定义 CSS：优化品牌显示与布局
+# ========== 2. UI 优化 ==========
 st.markdown("""
-    <style>
-    .main { background-color: #FDFDFD; }
-    .stButton>button { width: 100%; border-radius: 20px; border: 1px solid #1E3A8A; color: #1E3A8A; }
-    .stButton>button:hover { background-color: #1E3A8A; color: white; }
-    .report-header { font-size: 24px; font-weight: 700; color: #1E3A8A; margin-bottom: 10px; }
-    .guide-text { font-size: 14px; color: #666; margin-bottom: 20px; }
-    .brand-title { font-size: 20px; font-weight: 800; color: #1E3A8A; text-align: center; margin-top: -10px; }
-    </style>
-    """, unsafe_allow_html=True)
+<style>
+.main { background-color: #FCFCFC; }
 
-# 3. 顶部标题与认知声明
-st.markdown('<p class="report-header">⚖️ 青少年科技素养 4A 发展规划自测</p>', unsafe_allow_html=True)
-st.markdown('<p class="guide-text">本工具由洛克实验室提供技术支持。旨在基于科技教育逻辑，帮助家庭建立理性、科学的科技学习认知体系。我们坚决反对功利化误导，所有建议仅供成长参考。</p>', unsafe_allow_html=True)
-st.info("💡 提示：本系统采用“4A 发展模型”，从兴趣、能力、思维、自主性四个维度进行深度分析。")
+.stButton>button {
+    width:100%;
+    border-radius:28px;
+    border:2px solid #1E3A8A;
+    color:#1E3A8A;
+    font-weight:600;
+    height:3.2em;
+    transition:all .3s;
+}
 
-# 4. 侧边栏：加入洛克实验室品牌元素
+.stButton>button:hover {
+    background:#1E3A8A;
+    color:#fff;
+    transform:scale(1.03);
+}
+
+.header{
+    font-size:28px;
+    font-weight:800;
+    color:#1E3A8A;
+    text-align:center;
+}
+
+.brand{
+    text-align:center;
+    color:#475569;
+    margin-bottom:18px;
+    font-weight:500;
+}
+
+.pain{
+    background:#F1F5F9;
+    padding:18px;
+    border-radius:14px;
+    border-left:6px solid #3B82F6;
+    line-height:1.7;
+    font-size:15px;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+# ========== 3. 品牌头部 ==========
+st.markdown('<div class="header">🧪 青少年科技素养长期发展评估</div>', unsafe_allow_html=True)
+st.markdown('<div class="brand">洛克实验室 · 家庭科技成长研究中心</div>', unsafe_allow_html=True)
+
+
+# ========== 4. 痛点升级 ==========
+st.markdown("""
+<div class="pain">
+<b>很多理性家长都会困惑：</b><br><br>
+
+✔ 小学学编程，初中还能不能接得上？<br>
+✔ 现在不打基础，将来会不会被淘汰？<br>
+✔ 冲竞赛到底是机会，还是弯路？<br><br>
+
+洛克实验室基于多年家庭跟踪研究，
+通过「4A科技素养模型」，
+帮助家长看清长期方向，而不是短期焦虑。
+</div>
+""", unsafe_allow_html=True)
+
+
+# ========== 5. 侧边栏 ==========
 with st.sidebar:
-    # 机构 Logo（此处使用默认学术图标，您可以替换为自己的 URL）
-    st.image("https://cdn-icons-png.flaticon.com/512/3429/3429433.png", width=100)
-    st.markdown('<p class="brand-title">洛克实验室</p>', unsafe_allow_html=True)
-    st.caption("<center>专注青少年科技素养长期发展</center>", unsafe_allow_html=True)
-    st.divider()
-    
-    st.title("家庭科技成长顾问")
-    st.markdown("**📖 深度研究支持**")
-    st.write("获取《青少年科技素养 4A 实践观察手册》或申请加入【理性教育交流圈】。")
-    st.caption("请在社交平台私信回复暗号：")
-    st.code("4A手册", language=None)
-    st.divider()
-    st.caption("⚠️ 安全提示：本平台不提供任何升学、保过或竞赛获奖承诺，请理性规划。")
 
-# 5. 聊天记录初始化
+    st.markdown("### 🧪 洛克实验室")
+    st.caption("青少年科技成长研究机构")
+
+    st.divider()
+
+    st.markdown("📘 家庭支持工具包")
+    st.write("• 4A成长观察表")
+    st.write("• 竞赛路径风险说明")
+    st.write("• 家庭陪伴指南")
+
+    st.caption("完成测评后可申请获取参考资料")
+
+    st.divider()
+
+    st.caption("⚠️ 本系统不提供升学或获奖承诺，仅作长期参考")
+
+
+# ========== 6. 聊天初始化 ==========
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# 6. 核心功能引导
-st.markdown("### 🔍 快速启动专业分析")
-col1, col2 = st.columns(2)
-with col1:
-    if st.button("🧩 兴趣与认知评估"):
-        st.session_state.messages.append({"role": "user", "content": "我想基于 Awareness 维度，评估孩子目前对科技学习的真实兴趣点。"})
-with col2:
-    if st.button("🧠 计算思维自测"):
-        st.session_state.messages.append({"role": "user", "content": "我想进行【青少年计算思维能力自测】，请开启测评。"})
 
-# 7. 渲染聊天对话
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+# ========== 7. 功能入口升级 ==========
+st.markdown("### 🔍 开始专业评估")
 
-# 8. Flowise 后端 API 调用
+c1, c2, c3 = st.columns(3)
+
+with c1:
+    if st.button("🌱 兴趣发展评估"):
+        st.session_state.messages.append({
+            "role":"user",
+            "content":"请基于4A模型评估孩子当前兴趣发展状态"
+        })
+
+with c2:
+    if st.button("🛠 实践能力分析"):
+        st.session_state.messages.append({
+            "role":"user",
+            "content":"请分析孩子动手实践与工程能力水平"
+        })
+
+with c3:
+    if st.button("🧠 思维结构测评"):
+        st.session_state.messages.append({
+            "role":"user",
+            "content":"请评估孩子的计算思维发展阶段"
+        })
+
+
+# ========== 8. 历史记录 ==========
+for m in st.session_state.messages:
+    with st.chat_message(m["role"]):
+        st.markdown(m["content"])
+
+
+# ========== 9. API ==========
 API_URL = "https://cloud.flowiseai.com/api/v1/prediction/bf9603b5-6f62-4e3b-a48e-c0e52e30c963"
 
-if prompt := st.chat_input("输入孩子目前的学习情况..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+
+# ========== 10. 输入 ==========
+if prompt := st.chat_input("例如：三年级，喜欢拼装和游戏，专注力一般"):
+
+    st.session_state.messages.append({"role":"user","content":prompt})
+
     with st.chat_message("user"):
         st.markdown(prompt)
 
     with st.chat_message("assistant"):
+
         try:
-            with st.spinner('洛克实验室研究顾问正在查阅 4A 评价模型...'):
-                response = requests.post(API_URL, json={"question": prompt})
-                response.raise_for_status()
-                res_json = response.json()
-                answer = res_json.get("text") or res_json.get("response") or "系统忙，请稍后再试。"
+            with st.spinner("洛克实验室研究顾问正在生成分析报告..."):
+
+                res = requests.post(API_URL, json={"question":prompt})
+                res.raise_for_status()
+
+                data = res.json()
+
+                answer = (
+                    data.get("text") or
+                    data.get("response") or
+                    "系统繁忙，请稍后再试。"
+                )
+
                 st.markdown(answer)
-                st.session_state.messages.append({"role": "assistant", "content": answer})
-        except Exception as e:
-            st.error("⚠️ 顾问服务暂时无法连接。请检查 Flowise 后端设置。")
+
+                st.session_state.messages.append({
+                    "role":"assistant",
+                    "content":answer
+                })
+
+        except:
+            st.error("⚠️ 当前服务繁忙，请稍后重试。")
