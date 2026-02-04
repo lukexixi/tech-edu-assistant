@@ -60,9 +60,9 @@ with st.sidebar:
         st.markdown(f"""
         <div class="contact-card">
         <b>👤 小洛助手</b>：18962534373<br>
-        <b>💬 微信号</b>：Luke_Labs_Innovation<br>
-        <b>📕 小红书</b>：1102175226<br>
-        <b>🎵 抖音号</b>：LKSYS
+        <b>💬 微信号</b>：LUKE_LABS<br>
+        <b>📕 小红书</b>：187100618<br>
+        <b>🎵 抖音号</b>：LUKE_LABS
         </div>
         """, unsafe_allow_html=True)
     
