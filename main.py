@@ -57,7 +57,7 @@ st.markdown("""
 
 # ========== 3. 品牌头部 ==========
 st.markdown('<div class="header">🧪 青少年科技素养长期发展评估</div>', unsafe_allow_html=True)
-st.markdown('<div class="brand">洛克实验室 · 家庭科技成长研究中心</div>', unsafe_allow_html=True)
+st.markdown('<div class="brand">洛克实验室 · 科技教育成长研究中心</div>', unsafe_allow_html=True)
 
 
 # ========== 4. 痛点升级 ==========
